@@ -1,0 +1,31 @@
+====== GENERATING CSV FILES ======
+
+1. Open this link: https://bigquery.cloud.google.com/table/fh-bigquery:reddit_comments.2015_05
+2. You may need to create a Google BigQuery account.
+3. Write the follow queries below. For each year, you'll need to change 2011 to the relevant year. Additionally, you'll need to change each subreddit to get all subreddits.
+
+#legacySQL
+SELECT body, created_utc, score
+FROM [fh-bigquery:reddit_comments.2011]
+WHERE lower(body) CONTAINS 'obama' AND subreddit = 'politics'
+
+4. Click "Download as CSV"
+5. If the file is too large, you may have to save it as a Table then export it from there.
+7. Download the Twitter data in CSV form from here: https://toolbox.google.com/datasetsearch/search?query=twitter&docid=6srYA%2Bi3qZssY3ztAAAAAA%3D%3D
+8. Download the Facebook data in CSV form here: https://data.world/martinchek/2012-2016-facebook-posts. Name each file with the news source and put it in a subdirectory with the same name (i.e. abc/abc.csv, fox/fox.csv, etc.)
+9. Copy and paste approval ratings from the following link into an Excel document. Parse the data appropriately. Link: http://www.rasmussenreports.com/scoreboards/obama_approval_index_month_to_month
+6. Aggregate these files into a single directory. It is important to have a well defined directory as we will be analyze the CSV files in this directory.
+
+====== ANALYZING FILE SYSTEM ====== 
+
+--- reddit-analyzer.py ----
+
+This piece of code iterates over our reddit data sets and generates the map X as defined in our project document for each subreddit.
+
+1. In line 70 and 71, replace the strings file_loc_main and write_loc_main with the relevant file path for the directory containing the raw reddit data from above. 
+2. In line 79, replace the directories with your relevant subdirectories (i.e. reddit/obama-democrats representing the dataset for r/democrats).
+3. Run the code. It will produce output files and these will be titled output.csv.
+4. Uncomment lines 93-102.
+5. Comment out line 91.
+6. Run the code.
+7. This will produce output files. They will be titled monthly-results.csv.
